@@ -2,18 +2,52 @@
 
 ## 项目介绍
 
+「RISC-V CPU」是由「ACM班」自主研发的一款「酷得不得了」的Verilog大作业。故事发生在一个被称作「大二上学期」的倒霉秋季，在这里，被助教选中的人将被授予「qualify」资格，导引「阿磊」之力‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌，得见「yyu」。你将扮演一位名为「ACMer」的角色，在 VSCode / vim / 记事本 中邂逅码量各异、功能独特的「CPU Modules」，和他们一起「乱序执行」，找回失散的代码段，击败「CE」「RE」与「WA」——同时，逐步发掘「Computer Architecture」的真相。
+
 ## 作业说明
+
+在本作业中，你需要用Verilog在 `riscv/src/` 目录下完成一个CPU的电路设计，具体项目结构详见附录B。
 
 ### 分数构成
 
+- 完成Speculative CPU所支持的所有模块
+
+- 在本地Simulation通过大部分测试
+
+  >  在本地Simulation时，部分样例运行时间可能会非常非常长，如heart.c与pi.c。这些样例不会被算入Simulation的测试范围，但会在FPGA检查阶段纳入测试范围。
+
+- 在FPGA 上通过所有测试
+
 ### 时间安排
+
+每2周一次检查，检查内容为Code Review 。最后几次检查会包括testcases检查。
+
+
+
+### 最终作业提交
+
+你需要向助教单独提交由Vivado Synthesis生成出的.bit文件
+
+
 
 ## 实现说明
 
-- 基于 `cpu.v` 完成代码
-- 实现乱序执行的托马斯洛架构 CPU
+- 根据 `cpu.v` 提供的接口自顶向下完成代码
+- 实现乱序执行的Tomasulo架构 CPU
 - 本地测试使用 iVerilog 进行仿真，结果为 `.vcd` 文件
 - 作业最终检查要求在 FPGA 板上运行程序并通过测试数据
+
+
+
+## 帮助
+
+**这可能对你来说非常重要。**
+
+更多文档参见 https://github.com/ACMClassCourses/RISCV-CPU/tree/doc.
+
+
+
+----
 
 ## 附录 A
 
@@ -25,6 +59,8 @@
 - 其他可能需要安装的包
   - `sudo apt install gcc-multilib`
   - `sudo apt install llvm`
+
+
 
 ## 附录 B
 
