@@ -1,6 +1,34 @@
-# RISCV-CPU
+# RISCV-CPU 2022
 
-#### Repo Structure
+## 项目介绍
+
+## 作业说明
+
+### 分数构成
+
+### 时间安排
+
+## 实现说明
+
+- 基于 `cpu.v` 完成代码
+- 实现乱序执行的托马斯洛架构 CPU
+- 本地测试使用 iVerilog 进行仿真，结果为 `.vcd` 文件
+- 作业最终检查要求在 FPGA 板上运行程序并通过测试数据
+
+## 附录 A
+
+### RISC-V C and C++ Cross-compiler
+
+- https://github.com/riscv-collab/riscv-gnu-toolchain Release 中编译结果，将其下载并解压至自选安装路径
+- 配置环境变量：在 `~/.bashrc` 末添加 `export PATH=$PATH:$HOME/toolchain/riscv/bin` (路径按照实际解压位置为准)
+- 将 C / C++ 源文件编译 RISC-V 的 `.o` 文件请参考 [riscv/build_test.sh](https://github.com/ACMClassCourses/RISCV-CPU/blob/main/riscv/build_test.sh)
+- 其他可能需要安装的包
+  - `sudo apt install gcc-multilib`
+  - `sudo apt install llvm`
+
+## 附录 B
+
+### Repo Structure
 
 ```
 |--riscv/
@@ -24,20 +52,20 @@
 |--serial/              A third-party library for interfacing with FPGA ports
 ```
 
-#### Requirement
+### Requirement
 
-##### Basic Requirement
+#### Basic Requirement
 
 - Use Verilog to implement a CPU supporting part of RV32I Instruction set(2.1-2.6 in [RISC-V user manual](https://riscv.org//wp-content/uploads/2017/05/riscv-spec-v2.2.pdf)), with the provided code in this repository. 
 
-##### Grading Policy
+#### Grading Policy
 
 - A design meeting part of a requirement can get part of its corresponding points. 
 - The course project assignment is not mature yet. Please give practical suggestions or bug fixes for next year's project if you feel somewhere uncomfortable with current project. You should prepare a short note or presentation for your findings. You will get extra 2% for this. If you implement your suggestion and it's meaningful in both educational purpose and project perfection purpose, the extra credit will be raised up -- up to 10%. It will be a complement for your bonus part, or extra 1 point in the final grading if you get full mark in the project.
 
-#### Details
+### Details
 
-##### RISCV-Toolchain
+#### RISCV-Toolchain
 
 For prerequisites, go to see https://github.com/riscv/riscv-gnu-toolchain to install necessary packages.
 The configure is: 
@@ -63,11 +91,11 @@ Use configuration `./configure --prefix=/opt/riscv --with-arch=rv32ia --with-abi
 
 Go to see https://github.com/riscv/riscv-gnu-toolchain/issues/522.
 
-##### Custom
+#### Custom
 
 In this project, the size of memory(ram) is 128K, so only address lower than 0x20000 is available. However, reading and writing from 0x30000 and 0x30004 have special meaning, you can see `riscv/src/cpu.v` for more details. 
 
-##### Simulation using iverilog
+#### Simulation using iverilog
 
 ```
 cd ./riscv/src
@@ -75,7 +103,7 @@ iverilog *.v common/*/*.v
 vvp a.out
 ```
 
-##### Serial
+#### Serial
 
 Serial( [wjwwood/serial](https://github.com/wjwwood/serial)) is a cross-platform serial port library to help your design working on FPGA when receiving from UART. Build it by: 
 
@@ -87,7 +115,7 @@ make
 make install
 ```
 
-##### Build test
+#### Build test
 
 Use the following command to build a test, it will be a `test.data` file in folder `/riscv/test/`: 
 
@@ -98,7 +126,7 @@ cd riscv
 
 You can see all tests in `/riscv/testcase/` folder. 
 
-##### FPGA
+#### FPGA
 
 We'll provide you with Basys3 FPGA board. Use Vivado to generate bitstream and program the FPGA device. Then:
 
@@ -142,7 +170,7 @@ python FPGA_test.py
 
 You need to modify the `path_of_bit` in `FPGA_test.py` first. 
 
-##### Update Note
+### Update Note
 
 For some strong students that start project early based on last year's assignment, here are some changes we've made this year:
 
@@ -154,7 +182,7 @@ For some strong students that start project early based on last year's assignmen
 
    You're welcome to fix this problem by modifying preset code. Elegant implementation will be counted as bonus.
 
-##### Q&A
+### Q&A
 
 1. `rdy_in` and `rst_in`
 
@@ -172,7 +200,7 @@ For some strong students that start project early based on last year's assignmen
 
 You may meet various problems, especially when start testing on FPGA. Feel free to contact any TA for help.
 
-##### Known issues (2021.2.3)
+### Known issues (2021.2.3)
 
 1. Some will fail to run the second time on FPGA. One quick solution is to let `rst = rst_in | ~rdy_in`, however it's somehow incorrect. We hope the future TAs to investigate the phenomenon and give a correct solution.
 
