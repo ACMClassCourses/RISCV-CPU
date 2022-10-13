@@ -1,68 +1,95 @@
 # RISCV-CPU 2022
 
-## 项目介绍
+## 引言
 
-「RISC-V CPU」是由「ACM班」自主研发的一款「酷得不得了」的Verilog大作业。故事发生在一个被称作「大二上学期」的倒霉秋季，在这里，被助教选中的人将被授予「qualify」资格，导引「阿磊」之力‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌，得见「yyu」。你将扮演一位名为「ACMer」的角色，在 VSCode / vim / 记事本 中邂逅码量各异、功能独特的「CPU Modules」，和他们一起「乱序执行」，找回失散的代码段，击败「CE」「RE」与「WA」——同时，逐步发掘「Computer Architecture」的真相。
+![wechat_screenshot](README.assets/wechat_screenshot.jpg)
 
-## 作业说明
+## 项目说明
 
-在本作业中，你需要用Verilog在 `riscv/src/` 目录下完成一个CPU的电路设计，具体项目结构详见附录B。
+在本项目中，你需要使用 Verilog 语言完成一个简单的 RISC-V CPU 电路设计。Verilog 代码会以软件仿真和 FPGA 板两种方式运行。你设计的电路将运行若干测试程序并可能有输入数据，执行得到的输出数据将与期望结果比较，从而判定你的 Verilog 代码的正确性。你需要实现 CPU 的运算器与控制器，而内存等部件题面已提供代码。具体而言，你可以从 [`riscv/src/cpu.v`](https://github.com/ACMClassCourses/RISCV-CPU/blob/main/riscv/src/cpu.v) 文件开始阅读题面代码，题面项目结构详见[附录 B](#附录-B)。
 
-### 分数构成
+### 项目阶段
 
-- 完成Speculative CPU所支持的所有模块
+- 完成 Speculative CPU 所支持的所有模块
 
-- 在本地Simulation通过大部分测试
+- 在本地 Simulation 通过可执行的测试
 
-  >  在本地Simulation时，部分样例运行时间可能会非常非常长，如heart.c与pi.c。这些样例不会被算入Simulation的测试范围，但会在FPGA检查阶段纳入测试范围。
+  >  在本地 Simulation 时，部分样例运行时间可能会非常非常长，如 `heart.c` 与 `pi.c`。这些样例不会被算入 Simulation 的测试范围，但会在 FPGA 检查阶段纳入测试范围。
 
-- 在FPGA 上通过所有测试
+- 在 FPGA 上通过所有测试
 
 ### 时间安排
 
-每2周一次检查，检查内容为Code Review 。最后几次检查会包括testcases检查。
+每 2 周一次检查，形式为 Code Review 。最后几次检查会包括已通过的 testcases 的检查。
 
+### 最终提交
 
-
-### 最终作业提交
-
-你需要向助教单独提交由Vivado Synthesis生成出的.bit文件
+你需要向助教单独提交由 Vivado Synthesis生成出的 `.bit` 文件
 
 
 
 ## 实现说明
 
-- 根据 `cpu.v` 提供的接口自顶向下完成代码
-- 实现乱序执行的Tomasulo架构 CPU
-- 本地测试使用 iVerilog 进行仿真，结果为 `.vcd` 文件
-- 作业最终检查要求在 FPGA 板上运行程序并通过测试数据
+### 概述
 
+1. 根据 `cpu.v` 提供的接口自顶向下完成代码，其余题面代码尽量不要改动
+2. 设计并实现**支持乱序执行**的 Tomasulo 架构 CPU
+3. 使用 iVerilog 进行本地仿真测试（结果为 `.vcd` 文件）
+4. 依照助教安排，将 Verilog 代码烧录至 FPGA 板上进行所有测试数据的测试
 
+### 指令集
+
+> 可参考资料见[RISC-V 指令集](#RISC-V-指令集)
+
+本项目使用 **RV32I 指令集**
+
+基础测试内容不包括 Doubleword 和 Word 相关指令、Environment 相关指令和 CSR 相关等指令。
+
+必须要实现的指令为以下 37 个：`LUI`, `AUIPC`, `JAL`, `JALR`, `BEQ`, `BNE`, `BLT`, `BGE`, `BLTU`, `BGEU`, `LB`, `LH`, `LW`, `LBU`, `LHU`, `SB`, `SH`, `SW`, `ADDI`, `SLLI`, `SLTI`, `SLTIU`, `XORI`, `SRLI`, `SRAI`, `ORI`, `ANDI`, `ADD`, `SUB`, `SLL`, `SLT`, `SLTU`, `XOR`, `SRL`, `SRA`, `OR`, `AND`
 
 ## 帮助
 
-**这可能对你来说非常重要。**
+> **这可能对你来说非常重要。**
 
-更多文档参见 https://github.com/ACMClassCourses/RISCV-CPU/tree/doc.
+- Vivado 不支持 MacOS 系统，故如果使用 Mac 则必须使用虚拟机，推荐 Ubuntu Desktop。此外对于使用 Windows 电脑的同学，RISC-V Toolchain 也推荐在 Linux 系统上安装。
+- 更多题面补充文档参见 [本仓库 `doc` 分支](https://github.com/ACMClassCourses/RISCV-CPU/tree/doc)
+- 题面附录与 README 以外内容包含上文未提及信息，可能有助于你完成项目，请记得阅读
 
 
 
 ----
 
+> 以下为附录内容。
+
 ## 附录 A
+
+### RISC-V 指令集
+
+- 官网 https://riscv.org/
+- [官方文档下载页面](https://riscv.org/technical/specifications/)
+  - 基础内容见 Volume 1, Unprivileged Spec
+  - 特权指令集见 Volume 2, Privileged Spec
+- 非官方 [Read the Docs 文档](https://msyksphinz-self.github.io/riscv-isadoc/html/index.html)
+
+- 非官方 Green Card，[PDF 下载链接](https://inst.eecs.berkeley.edu/~cs61c/fa17/img/riscvcard.pdf)
 
 ### RISC-V C and C++ Cross-compiler
 
 - https://github.com/riscv-collab/riscv-gnu-toolchain Release 中编译结果，将其下载并解压至自选安装路径
 - 配置环境变量：在 `~/.bashrc` 末添加 `export PATH=$PATH:$HOME/toolchain/riscv/bin` (路径按照实际解压位置为准)
-- 将 C / C++ 源文件编译 RISC-V 的 `.o` 文件请参考 [riscv/build_test.sh](https://github.com/ACMClassCourses/RISCV-CPU/blob/main/riscv/build_test.sh)
+- 将 C / C++ 源文件编译至 RISC-V 的 `.o` 文件请参考 [riscv/build_test.sh](https://github.com/ACMClassCourses/RISCV-CPU/blob/main/riscv/build_test.sh)
 - 其他可能需要安装的包
   - `sudo apt install gcc-multilib`
   - `sudo apt install llvm`
 
+### Vivado
 
+- 你需要该软件将 Verilog 代码编译为可以烧录至 FPGA 板的二进制文件
+- Vivado 安装后软件整体大小达 30G 左右，请准备足够硬盘空间
 
 ## 附录 B
+
+> 附录 B 为 2021 年旧题面
 
 ### Repo Structure
 
