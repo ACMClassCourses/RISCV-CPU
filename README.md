@@ -8,6 +8,8 @@
 
 在本项目中，你需要使用 Verilog 语言完成一个简单的 RISC-V CPU 电路设计。Verilog 代码会以软件仿真和 FPGA 板两种方式运行。你设计的电路将运行若干测试程序并可能有输入数据，执行得到的输出数据将与期望结果比较，从而判定你的 Verilog 代码的正确性。你需要实现 CPU 的运算器与控制器，而内存等部件题面已提供代码。具体而言，你可以从 [`riscv/src/cpu.v`](https://github.com/ACMClassCourses/RISCV-CPU/blob/main/riscv/src/cpu.v) 文件开始阅读题面代码，题面项目结构详见[附录 B](#附录-B)。
 
+
+
 ### 项目阶段
 
 - 完成 Speculative CPU 所支持的所有模块
@@ -18,13 +20,43 @@
 
 - 在 FPGA 上通过所有测试
 
+
+
 ### 时间安排
 
-每 2 周一次检查，形式为 Code Review 。最后几次检查会包括已通过的 testcases 的检查。
+每 2 周一次检查，检查时间为每周日22:00后
 
-### 最终提交
+检查形式与标准：
 
-你需要向助教单独提交由 Vivado Synthesis生成出的 `.bit` 文件
+- Week 6：仓库检查
+
+  仓库创建
+
+- Week 10：仓库检查
+
+  各个CPU模块文件创建
+
+- Week 12：仓库检查
+
+  各个CPU模块文件基本完成，完成`cpu.v`连线
+
+- Week 14：Code Review
+
+  Simulation通过`gcd`
+
+- Week 16：Code Review
+
+  Simulation通过除`tak`,`heart`,`pi`之外的所有样例
+
+- Week 18：最终提交
+
+  FPGA通过所有样例
+
+
+
+### 最终提交 (Code Test)
+
+你需要向助教单独提交由 Vivado Synthesis生成出的 `.bit` 文件，截止时间为第18周(23.1.9)前。
 
 
 
@@ -39,7 +71,7 @@
 
 ### 指令集
 
-> 可参考资料见[RISC-V 指令集](#RISC-V-指令集)
+> 可参考资料见 [RISC-V 指令集](#RISC-V-指令集)
 
 本项目使用 **RV32I 指令集**
 
@@ -51,9 +83,31 @@
 
 > **这可能对你来说非常重要。**
 
+### 文档
+
 - Vivado 不支持 MacOS 系统，故如果使用 Mac 则必须使用虚拟机，推荐 Ubuntu Desktop。此外对于使用 Windows 电脑的同学，RISC-V Toolchain 也推荐在 Linux 系统上安装。
 - 更多题面补充文档参见 [本仓库 `doc` 分支](https://github.com/ACMClassCourses/RISCV-CPU/tree/doc)
 - 题面附录与 README 以外内容包含上文未提及信息，可能有助于你完成项目，请记得阅读
+
+
+
+### Q & A
+
+1. 我的CPU会从哪里读取指令并执行？
+
+   从`0x0000000`地址处开始执行。
+
+2. 我的CPU执行如何终止？
+
+   见`cpu.v`中`Specification`部分。
+
+3. 我的寄存器堆（Register File）需要多少个寄存器？
+
+   Unprivileged CPU: 32
+
+   Privileged CPU: 32 + 8 (CSR)
+
+4. To be continued...
 
 
 
