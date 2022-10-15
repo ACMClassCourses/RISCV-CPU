@@ -1,4 +1,4 @@
-# RISCV-CPU 2022
+# <img src="README.assets/cpu.png" width="50" /> RISCV-CPU 2022
 
 ## 引言
 
@@ -28,35 +28,33 @@
 
 检查形式与标准：
 
-- Week 6：仓库检查
+- **Week 6**：仓库检查
+  - 仓库创建
 
-  仓库创建
+- **Week 8**：基础设计检查
+  - 完成电路设计草稿 / 各个 CPU 模块文件创建
 
-- Week 10：仓库检查
+- **Week 10**：代码进度检查
+  - 完成 Instruction Fetch 部分代码，尝试仿真运行
 
-  各个CPU模块文件创建
+- **Week 12**：代码进度检查
+  - 各个 CPU 模块文件基本完成，完成 `cpu.v` 连线
 
-- Week 12：仓库检查
+- **Week 14**：仿真进度检查
+  - Simulation 通过 `gcd`
 
-  各个CPU模块文件基本完成，完成`cpu.v`连线
+- **Week 16**：上板进度检查
+  - Simulation 通过除 `tak`，`heart`，`pi` 之外的所有样例
 
-- Week 14：Code Review
+- **Week 18**：最终提交 / Code Review
+  - FPGA 通过所有样例
 
-  Simulation通过`gcd`
-
-- Week 16：Code Review
-
-  Simulation通过除`tak`,`heart`,`pi`之外的所有样例
-
-- Week 18：最终提交
-
-  FPGA通过所有样例
 
 
 
 ### 最终提交
 
-你需要向助教单独提交由 Vivado Synthesis生成出的 `.bit` 文件，截止时间为第18周(23.1.9)前。
+你需要向助教单独提交由 Vivado Synthesis 生成出的 `.bit` 文件，截止时间为第 18 周（2023.1.9）前。
 
 
 
@@ -93,21 +91,21 @@
 
 ### Q & A
 
-1. 我的CPU会从哪里读取指令并执行？
+1. **我的CPU会从哪里读取指令并执行？**
 
-   从`0x0000000`地址处开始执行。
+   从 `0x0000000` 地址处开始执行。
 
-2. 我的CPU执行如何终止？
+2. **我的CPU执行如何终止？**
 
-   见`cpu.v`中`Specification`部分。
+   见 `cpu.v` 中 `Specification` 部分。
 
-3. 我的寄存器堆（Register File）需要多少个寄存器？
+3. **我的寄存器堆（Register File）需要多少个寄存器？**
 
    Unprivileged CPU: 32
 
    Privileged CPU: 32 + 8 (CSR)
 
-4. To be continued...
+4. **To be continued...**
 
 
 
