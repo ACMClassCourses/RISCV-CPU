@@ -11,11 +11,15 @@ riscv_toolchain = /opt/riscv
 riscv_bin = $(riscv_toolchain)/bin
 sys = $(prefix)/sys
 
+_no_testcase_name_check:
+	@$(if $(strip $(name)),, echo 'Missing Testcase Name')
+	@$(if $(strip $(name)),, exit 1)
+
 # All build result are put at testspace
 build_sim:
 	@cd $(src) && iverilog -o $(testspace)/test $(sim)/testbench.v $(src)/common/block_ram/*.v $(src)/common/fifo/*.v $(src)/common/uart/*.v $(src)/*.vh $(src)/*.v
 
-build_sim_test:
+build_sim_test: _no_testcase_name_check
 	@$(riscv_bin)/riscv32-unknown-elf-as -o $(sys)/rom.o -march=rv32i $(sys)/rom.s
 	@cp $(sim_testcase)/*$(name)*.c $(testspace)/test.c
 	@$(riscv_bin)/riscv32-unknown-elf-gcc -o $(testspace)/test.o -I $(sys) -c $(testspace)/test.c -O2 -march=rv32i -mabi=ilp32 -Wall
@@ -31,4 +35,4 @@ clear:
 
 test_sim: build_sim build_sim_test run_sim
 
-.PHONY: build_sim build_sim_test run_sim clear test_sim
+.PHONY: _no_testcase_name_check build_sim build_sim_test run_sim clear test_sim

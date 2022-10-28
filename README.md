@@ -1,12 +1,12 @@
-# <img src="README.assets/cpu.png" width="40" align=center /> RISCV-CPU 2022
+# <img src="/README.assets/cpu.png" width="40" align=center /> RISCV-CPU 2022
 
 ## 引言
 
-![wechat_screenshot](README.assets/wechat_screenshot.jpg)
+![wechat_screenshot](/README.assets/wechat_screenshot.jpg)
 
 ## 项目说明
 
-在本项目中，你需要使用 Verilog 语言完成一个简单的 RISC-V CPU 电路设计。Verilog 代码会以软件仿真和 FPGA 板两种方式运行。你设计的电路将运行若干测试程序并可能有输入数据，执行得到的输出数据将与期望结果比较，从而判定你的 Verilog 代码的正确性。你需要实现 CPU 的运算器与控制器，而内存等部件题面已提供代码。具体而言，你可以从 [`riscv/src/cpu.v`](https://github.com/ACMClassCourses/RISCV-CPU/blob/main/riscv/src/cpu.v) 文件开始阅读题面代码，题面项目结构详见[附录 B](#附录-B)。
+在本项目中，你需要使用 Verilog 语言完成一个简单的 RISC-V CPU 电路设计。Verilog 代码会以软件仿真和 FPGA 板两种方式运行。你设计的电路将运行若干测试程序并可能有输入数据，执行得到的输出数据将与期望结果比较，从而判定你的 Verilog 代码的正确性。你需要实现 CPU 的运算器与控制器，而内存等部件题面已提供代码。
 
 
 
@@ -23,6 +23,8 @@
 
 
 ### 时间安排
+
+> 时间以上海交通大学 2022-2023 学年校历为准，Week 6 周一为 202210.17
 
 每 2 周一次检查，检查时间为每周日 22:00 后，下表为检查形式与标准：
 
@@ -45,9 +47,30 @@
 
 ## 实现说明
 
+### 仓库文件结构
+
+```C++
+📦RISCV-CPU
+ ┣ 📂riscv
+ ┃ ┣ 📂fpga				// FPGA 开发板相关
+ ┃ ┣ 📂script			// 编译测试相关脚本
+ ┃ ┣ 📂sim				// 仿真运行 Testbench
+ ┃ ┣ 📂src				// HDL 源代码
+ ┃ ┃ ┣ 📂common				// 题面提供部件源代码
+ ┃ ┃ ┣ 📜cpu.v				// CPU 核心代码
+ ┃ ┣ 📂sys				// 编译 C 语言测试点所需文件
+ ┃ ┣ 📂testcase			// 测试点
+ ┃ ┃ ┣ 📂fpga				// 全部测试点 (全集)
+ ┃ ┃ ┗ 📂sim				// 仿真运行测试点 (子集)
+ ┃ ┣ 📂testspace		// 编译运行结果
+ ┃ ┗ 📜Makefile
+ ┣ 📂serial			// 用于访问 FPGA 串口的第三方库
+ ┗ 📜README.md
+```
+
 ### 概述
 
-1. 根据 `cpu.v` 提供的接口自顶向下完成代码，其余题面代码尽量不要改动
+1. 根据 [`riscv/src/cpu.v`](https://github.com/ACMClassCourses/RISCV-CPU/blob/main/riscv/src/cpu.v) 提供的接口自顶向下完成代码，其余题面代码尽量不要改动
 2. 设计并实现**支持乱序执行**的 Tomasulo 架构 CPU
 3. 使用 iVerilog 进行本地仿真测试（结果为 `.vcd` 文件）
 4. 依照助教安排，将 Verilog 代码烧录至 FPGA 板上进行所有测试数据的测试
@@ -80,7 +103,7 @@
 
    从 `0x0000000` 地址处开始执行。
 
-2. **我的CPU执行如何终止？**
+2. **我的 CPU 如何停机？**
 
    见 `cpu.v` 中 `Specification` 部分。
 
