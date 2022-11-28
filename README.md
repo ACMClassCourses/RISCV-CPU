@@ -99,7 +99,7 @@
 
 ### Q & A
 
-1. **我的CPU会从哪里读取指令并执行？**
+1. **我的 CPU 会从哪里读取指令并执行？**
 
    从 `0x0000000` 地址处开始执行。
 
@@ -113,7 +113,11 @@
 
    Privileged CPU: 32 + 8 (CSR)
 
-4. **To be continued...**
+4. **托马斯洛算法并没有硬件实现的公认唯一标准，那么本项目有什么特殊要求吗？**
+
+   托马斯洛的要求可参考 [Wikipedia](https://en.wikipedia.org/wiki/Tomasulo%27s_algorithm#Instruction_lifecycle)，即执行一条指令需要涉及 *Issue*、*Execute*、*Write Result* 三步骤。此外，**必须要实现 *Instruction Cache*** 以确保程序运行过程中会出现多条指令的 lifecycle 重叠的情况。
+
+5. **To be continued...**
 
 
 
