@@ -2,9 +2,9 @@
 # build testcase
 ./build_test.sh $@
 # copy test input
-if [ -f ./testcase/$@.in ]; then cp ./testcase/$@.in ./test/test.in; fi
+if [ -f ./testspace/$@.in ]; then cp ./testspace/$@.in ./test/test.in; fi
 # copy test output
-if [ -f ./testcase/$@.ans ]; then cp ./testcase/$@.ans ./test/test.ans; fi
+if [ -f ./testspace/$@.ans ]; then cp ./testspace/$@.ans ./test/test.ans; fi
 # add your own test script here
 # Example:
 # - iverilog/gtkwave/vivado

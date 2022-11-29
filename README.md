@@ -117,7 +117,31 @@
 
    托马斯洛的要求可参考 [Wikipedia](https://en.wikipedia.org/wiki/Tomasulo%27s_algorithm#Instruction_lifecycle)，即执行一条指令需要涉及 *Issue*、*Execute*、*Write Result* 三步骤。此外，**必须要实现 *Instruction Cache*** 以确保程序运行过程中会出现多条指令的 lifecycle 重叠的情况。
 
-5. **To be continued...**
+5. `io_buffer_full`?
+
+   用于指示当前ram的io buffer是否为满。若buffer已满，可能会出现overwrite / loss.
+
+   注意：此信号在simulation 部分始终为low (false)，但在FPGA上会有高低变化。
+
+6. `in_rdy`?
+
+   用于指示当前hci总线是否为active (可工作)，若否，则cpu应当pause。
+
+7. 运行build脚本报错？
+
+   请考虑以下几点：
+
+   - 目录错误
+
+     所有bash脚本 (在 ./script/ 下) 应当在根目录 riscv/ 下执行.
+
+   - 环境缺失，如 `cannot find module -lgcc ...`
+
+     **在配置了riscv-toolchains环境下，应当可以直接执行此bash脚本。**
+
+     **请检查连接了FPGA的系统是否配置了riscv-toolchains，若没有，你也可以自行修改bash脚本。**
+
+8. **To be continued...**
 
 
 
@@ -159,7 +183,7 @@
 
 ```
 |--riscv/
-|  |--ctrl/             Interface with FPGA
+|  |--fpga/             Interface with FPGA
 |  |--sim/              Testbench, add to Vivado project only in simulation
 |  |--src/              Where your code should be
 |  |  |--common/                Provided UART and RAM

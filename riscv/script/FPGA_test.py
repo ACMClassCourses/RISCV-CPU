@@ -4,7 +4,7 @@ import sys
 isWin = sys.platform[:3] == 'win'
 wslPrefix = 'ubuntu.exe run ' if isWin else ''
 
-test_cases_dir = './testcase'
+test_cases_dir = './testspace'
 path_of_bit = 'C:/a.bit' # A Windows-style path is ok if you runs on Windows
 excluded_test_cases = []
 
