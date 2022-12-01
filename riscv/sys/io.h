@@ -99,7 +99,10 @@ static inline unsigned int clock()
 #else
 static inline void sleep(const unsigned int milli_sec)
 {
-    unsigned int s = 0, d = milli_sec * (CPU_CLK_FREQ / 1000);
+    /* bug fix: clock may increase when we load from CPUCLK_PORT_IN */
+    /*          which will introduce unsigned value overflow.       */
+    /* unsigned int s = 0, d = milli_sec * (CPU_CLK_FREQ / 1000);   */
+    int s = 0, d = milli_sec * (CPU_CLK_FREQ / 1000);
     s = clock();
     while (clock() - s < d);
 }
