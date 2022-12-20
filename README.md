@@ -1,8 +1,12 @@
-# <img src="/README.assets/cpu.png" width="40" align=center /> RISCV-CPU 2022
+# <img src="README.assets/cpu.png" width="40" align=center /> RISCV-CPU 2022
 
 ## 引言
 
-![wechat_screenshot](/README.assets/wechat_screenshot.jpg)
+![wechat_screenshot](README.assets/wechat_screenshot.jpg)
+
+
+
+
 
 ## 项目说明
 
@@ -39,9 +43,24 @@
 | **Week 18** | FPGA 通过所有样例                                     |
 
 
+
 ### 最终提交
 
 你需要向助教单独提交由 Vivado Synthesis 生成出的 `.bit` 文件，截止时间为第 18 周前（2023.1.8 23:59）。
+
+
+
+### 分数构成
+
+本作业满分为 100%。
+
+| 评分项目        | 分数 | 说明                                     |
+| --------------- | ---- | ---------------------------------------- |
+| **仿真测试**    | 75%  | 在 OJ 通过所有仿真测试点                 |
+| **FPGA 测试**   | 10%  | 在 OJ 通过所有 FPGA 测试点               |
+| **Code Review** | 15%  | 以面谈形式考察 CPU 原理与 HDL 的理解掌握 |
+
+
 
 
 
@@ -51,21 +70,21 @@
 
 ```C++
 📦RISCV-CPU
- ┣ 📂riscv
- ┃ ┣ 📂fpga				// FPGA 开发板相关
- ┃ ┣ 📂script			// 编译测试相关脚本
- ┃ ┣ 📂sim				// 仿真运行 Testbench
- ┃ ┣ 📂src				// HDL 源代码
- ┃ ┃ ┣ 📂common				// 题面提供部件源代码
- ┃ ┃ ┣ 📜cpu.v				// CPU 核心代码
- ┃ ┣ 📂sys				// 编译 C 语言测试点所需文件
- ┃ ┣ 📂testcase			// 测试点
- ┃ ┃ ┣ 📂fpga				// 全部测试点 (全集)
- ┃ ┃ ┗ 📂sim				// 仿真运行测试点 (子集)
- ┃ ┣ 📂testspace		// 编译运行结果
- ┃ ┗ 📜Makefile
- ┣ 📂serial			// 用于访问 FPGA 串口的第三方库
- ┗ 📜README.md
+ ┣ 📂riscv		// 项目根目录
+ ┃ ┣ 📂fpga			// FPGA 开发板相关
+ ┃ ┣ 📂script		// 编译测试相关参考脚本
+ ┃ ┣ 📂sim			// 仿真运行 Testbench
+ ┃ ┣ 📂src			// HDL 源代码
+ ┃ ┃ ┣ 📂common			// 题面提供部件源代码
+ ┃ ┃ ┣ 📜cpu.v			// CPU 核心代码
+ ┃ ┣ 📂sys			// 编译 C 语言测试点所需文件
+ ┃ ┣ 📂testcase		// 测试点
+ ┃ ┃ ┣ 📂fpga			// 全部测试点 (全集)
+ ┃ ┃ ┗ 📂sim			// 仿真运行测试点 (子集)
+ ┃ ┣ 📂testspace	// 编译运行结果
+ ┃ ┗ 📜Makefile		// 编译及测试脚本
+ ┣ 📂serial		// 用于访问 FPGA 串口的第三方库
+ ┗ 📜README.md	// 题面文档
 ```
 
 ### 概述
@@ -84,6 +103,10 @@
 基础测试内容不包括 Doubleword 和 Word 相关指令、Environment 相关指令和 CSR 相关等指令。
 
 必须要实现的指令为以下 37 个：`LUI`, `AUIPC`, `JAL`, `JALR`, `BEQ`, `BNE`, `BLT`, `BGE`, `BLTU`, `BGEU`, `LB`, `LH`, `LW`, `LBU`, `LHU`, `SB`, `SH`, `SW`, `ADDI`, `SLLI`, `SLTI`, `SLTIU`, `XORI`, `SRLI`, `SRAI`, `ORI`, `ANDI`, `ADD`, `SUB`, `SLL`, `SLT`, `SLTU`, `XOR`, `SRL`, `SRA`, `OR`, `AND`
+
+
+
+
 
 ## 帮助
 
@@ -109,45 +132,55 @@
 
 3. **我的寄存器堆（Register File）需要多少个寄存器？**
 
-   Unprivileged CPU: 32
+   Unprivileged CPU: 32；
 
-   Privileged CPU: 32 + 8 (CSR)
+   Privileged CPU: 32 + 8 (CSR)。
 
 4. **托马斯洛算法并没有硬件实现的公认唯一标准，那么本项目有什么特殊要求吗？**
 
    托马斯洛的要求可参考 [Wikipedia](https://en.wikipedia.org/wiki/Tomasulo%27s_algorithm#Instruction_lifecycle)，即执行一条指令需要涉及 *Issue*、*Execute*、*Write Result* 三步骤。此外，**必须要实现 *Instruction Cache*** 以确保程序运行过程中会出现多条指令的 lifecycle 重叠的情况。
 
-5. `io_buffer_full`?
+5. **我该如何开始运行代码？**
 
-   用于指示当前ram的io buffer是否为满。若buffer已满，可能会出现overwrite / loss.
+   在 `riscv/` 路径下运行 `make test_sim name=000` 指令即可自动编译并运行第一个仿真测试点，测试文件均在 `riscv/testspace/` 文件夹中。
 
-   注意：此信号在simulation 部分始终为low (false)，但在FPGA上会有高低变化。
+6. **`io_buffer_full`?**
 
-6. `in_rdy`?
+   用于指示当前 ram 的 io buffer 是否已满。若已满，可能会出现 overwrite / loss。
+
+   注意：此信号在 simulation 部分始终为 low (false)，但在 FPGA 上会有高低变化。
+
+7. **`in_rdy`?**
 
    用于指示当前hci总线是否为active (可工作)，若否，则cpu应当pause。
 
-7. 运行build脚本报错？
+8. **运行测试过程中 build 报错？**
 
    请考虑以下几点：
 
    - 目录错误
 
-     所有bash脚本 (在 ./script/ 下) 应当在根目录 riscv/ 下执行.
+     脚本运行目录应当为 `riscv/` 文件夹
 
    - 环境缺失，如 `cannot find module -lgcc ...`
 
-     **在配置了riscv-toolchains环境下，应当可以直接执行此bash脚本。**
+     **在配置了riscv-toolchains 的环境下，应当可以正常 build。**
 
-     **请检查连接了FPGA的系统是否配置了riscv-toolchains，若没有，你也可以自行修改bash脚本。**
+     **请检查连接了 FPGA 的系统是否配置了 riscv-toolchains，若没有，你也可以使用现成的编译结果。**
 
-8. **To be continued...**
+9. **To be continued...**
+
+
 
 
 
 ----
 
 > 以下为附录内容。
+
+
+
+
 
 ## 附录 A
 
@@ -163,17 +196,25 @@
 
 ### RISC-V C and C++ Cross-compiler
 
-- https://github.com/riscv-collab/riscv-gnu-toolchain Release 中编译结果，将其下载并解压至自选安装路径
-- 配置环境变量：在 `~/.bashrc` 末添加 `export PATH=$PATH:$HOME/toolchain/riscv/bin` (路径按照实际解压位置为准)
-- 将 C / C++ 源文件编译至 RISC-V 的 `.o` 文件请参考 [riscv/build_test.sh](https://github.com/ACMClassCourses/RISCV-CPU/blob/main/riscv/build_test.sh)
-- 其他可能需要安装的包
-  - `sudo apt install gcc-multilib`
-  - `sudo apt install llvm`
+- https://github.com/riscv-collab/riscv-gnu-toolchain 根据该 Repo 教程安装
+- 请注意下载需要 6.6G 空间，安装内容大小为 1G 左右。
 
-### Vivado
+### 使用 FPGA 板运行代码
 
-- 你需要该软件将 Verilog 代码编译为可以烧录至 FPGA 板的二进制文件
-- Vivado 安装后软件整体大小达 30G 左右，请准备足够硬盘空间
+- **Vivado**
+
+  - 你需要该软件将 Verilog 代码编译为可以烧录至 FPGA 板的二进制文件
+
+  - Vivado 安装后软件整体大小达 30G 左右，请准备足够硬盘空间
+
+- **Serial Communication Library**
+
+  - 程序与 FPGA 板通过 USB 通讯过程中使用该库
+  - 安装方式参见本仓库 Submodule
+
+
+
+
 
 ## 附录 B
 
